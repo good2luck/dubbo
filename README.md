@@ -1,3 +1,9 @@
+# 源码版本
+commit：f6eddf7
+3.2分支，3.2.12-SNAPSHOT版本
+在3.2.11版本升级几个依赖包的版本，可以当作3.2.11版本的源码分析
+
+
 # Apache Dubbo Project
 
 [![Build and Test For PR](https://github.com/apache/dubbo/actions/workflows/build-and-test-pr.yml/badge.svg)](https://github.com/apache/dubbo/actions/workflows/build-and-test-pr.yml)
