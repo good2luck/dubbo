@@ -23,6 +23,10 @@ import java.util.concurrent.CountDownLatch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Dubbo Auto-Configuration Provider Bootstrap
+ * Dubbo样例：服务提供者启动类
+ */
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.springboot.demo.provider"})
 public class ProviderApplication {
