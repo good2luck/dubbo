@@ -39,6 +39,7 @@ public @interface Wrapper {
     /**
      * absolute ordering, optional
      * ascending order, smaller values will be in the front of the list.
+     * 正序排序，值越小越靠前
      * @return
      */
     int order() default 0;

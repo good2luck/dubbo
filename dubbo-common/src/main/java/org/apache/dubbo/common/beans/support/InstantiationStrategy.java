@@ -30,6 +30,8 @@ import java.util.List;
 
 /**
  * Interface to create instance for specify type, using both in {@link ExtensionLoader} and {@link ScopeBeanFactory}.
+ *
+ * 翻译：用于为指定类型创建实例的接口，同时在{@link ExtensionLoader}和{@link ScopeBeanFactory}中使用。
  */
 public class InstantiationStrategy {
 
@@ -47,6 +49,7 @@ public class InstantiationStrategy {
     public <T> T instantiate(Class<T> type) throws ReflectiveOperationException {
 
         // should not use default constructor directly, maybe also has another constructor matched scope model arguments
+        // 翻译：不应该直接使用默认构造函数，可能还有另一个构造函数匹配了作用域模型参数
         // 1. try to get default constructor
         Constructor<T> defaultConstructor = null;
         try {
@@ -89,6 +92,7 @@ public class InstantiationStrategy {
         Class<?>[] parameterTypes = targetConstructor.getParameterTypes();
         Object[] args = new Object[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; i++) {
+            // 获取作用域模型对象
             args[i] = getArgumentValueForType(parameterTypes[i]);
         }
         return (T) targetConstructor.newInstance(args);

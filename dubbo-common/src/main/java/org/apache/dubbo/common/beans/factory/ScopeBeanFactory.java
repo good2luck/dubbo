@@ -219,11 +219,15 @@ public class ScopeBeanFactory {
         if (type == Object.class) {
             return null;
         }
+        // 候选bean列表
         List<BeanInfo> candidates = null;
+        // 第一个匹配的bean
         BeanInfo firstCandidate = null;
         for (BeanInfo beanInfo : registeredBeanInfos) {
             // if required bean type is same class/superclass/interface of the registered bean
+            // 翻译：如果需要的bean类型与已注册bean的类/超类/接口相同
             if (type.isAssignableFrom(beanInfo.instance.getClass())) {
+                // 名称匹配，直接返回
                 if (StringUtils.isEquals(beanInfo.name, name)) {
                     return (T) beanInfo.instance;
                 } else {
@@ -242,6 +246,7 @@ public class ScopeBeanFactory {
         }
 
         // if bean name not matched and only single candidate
+        // 没有候选bean，返回null；有1个候选bean，返回bean；多个候选bean抛出异常
         if (candidates != null) {
             if (candidates.size() == 1) {
                 return (T) candidates.get(0).instance;

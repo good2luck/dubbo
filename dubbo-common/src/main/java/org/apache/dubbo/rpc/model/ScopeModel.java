@@ -38,6 +38,10 @@ import java.util.concurrent.locks.Lock;
 
 import static org.apache.dubbo.common.constants.LoggerCodeConstants.CONFIG_UNABLE_DESTROY_MODEL;
 
+/**
+ * ScopeModel
+ * 作用域的模型：用于管理和区分不同的作用域的配置和服务，如：FrameworkModel、ApplicationModel、ModuleModel
+ */
 public abstract class ScopeModel implements ExtensionAccessor {
     protected static final ErrorTypeAwareLogger LOGGER = LoggerFactory.getErrorTypeAwareLogger(ScopeModel.class);
 
@@ -54,20 +58,26 @@ public abstract class ScopeModel implements ExtensionAccessor {
      *     FrameworkModel (index=1) -> ApplicationModel (index=2) -> ModuleModel (index=1, first user module)
      * </ol>
      */
+    // 内部id，用于表示模型树的层次结构，使用场景可以查看 buildDesc()方法
     private String internalId;
 
     /**
      * Public Model Name, can be set from user
      */
     private String modelName;
-
+    // 描述, 例如：Dubbo Application[1.1](appName)
     private String desc;
 
     private final Set<ClassLoader> classLoaders = new ConcurrentHashSet<>();
 
+    // 父作用域，ModuleModel的parent为ApplicationModel，ApplicationModel的parent为FrameworkModel，FrameworkModel的parent为null
     private final ScopeModel parent;
+
+    // 当前的作用域类型，例如：ExtensionScope.FRAMEWORK等
     private final ExtensionScope scope;
 
+    // extensionDirector，扩展点的管理者，用于获取对应的扩展点加载器（ExtensionLoader）
+    // 另可以通过extensionDirector添加extensionPostProcessors:List<ExtensionPostProcessor>，用于处理扩展点的加载时执行前置和后置操作，类似Spring
     private volatile ExtensionDirector extensionDirector;
 
     private volatile ScopeBeanFactory beanFactory;
@@ -77,6 +87,7 @@ public abstract class ScopeModel implements ExtensionAccessor {
 
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
     private final AtomicBoolean destroyed = new AtomicBoolean(false);
+    // 是否是内部作用域
     private final boolean internalScope;
 
     protected final Object instLock = new Object();
@@ -100,6 +111,8 @@ public abstract class ScopeModel implements ExtensionAccessor {
         synchronized (instLock) {
             this.extensionDirector =
                     new ExtensionDirector(parent != null ? parent.getExtensionDirector() : null, scope, this);
+            // 添加ScopeModelAwareExtensionProcessor，当创建扩展实例时，会执行ScopeModelAwareExtensionProcessor的postProcessAfterInitialization方法
+            // postProcessAfterInitialization方法继承自ExtensionProcessor接口，用于处理扩展实例的后置处理，类似Spring的BeanPostProcessor
             this.extensionDirector.addExtensionPostProcessor(new ScopeModelAwareExtensionProcessor(this));
             this.beanFactory = new ScopeBeanFactory(parent != null ? parent.getBeanFactory() : null, extensionDirector);
 

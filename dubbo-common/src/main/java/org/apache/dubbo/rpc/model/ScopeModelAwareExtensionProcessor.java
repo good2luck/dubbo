@@ -52,6 +52,7 @@ public class ScopeModelAwareExtensionProcessor implements ExtensionPostProcessor
 
     @Override
     public Object postProcessAfterInitialization(Object instance, String name) throws Exception {
+        // 如果实例实现了 ScopeModelAware 接口，则将 scopeModel 注入到实例中，类似Spring的ApplicationContextAware等
         if (instance instanceof ScopeModelAware) {
             ScopeModelAware modelAware = (ScopeModelAware) instance;
             modelAware.setScopeModel(scopeModel);

@@ -35,6 +35,9 @@ import java.lang.annotation.Target;
  * SPI provider can call {@link ExtensionLoader#getActivateExtension(URL, String, String)} to find out all activated
  * extensions with the given criteria.
  *
+ * 注解用于通过给定的条件自动激活某些扩展。
+ * 例如：<code>@Activate</code> 可以用于在有多个实现时加载某些<code>Filter</code>扩展。
+ *
  * @see SPI
  * @see URL
  * @see ExtensionLoader
@@ -87,6 +90,7 @@ public @interface Activate {
      * Absolute ordering info, optional
      *
      * Ascending order, smaller values will be in the front o the list.
+     * 正序排序，值越小越靠前
      *
      * @return absolute ordering info
      */

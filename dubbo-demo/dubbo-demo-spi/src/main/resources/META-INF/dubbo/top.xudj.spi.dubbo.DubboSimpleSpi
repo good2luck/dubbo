@@ -1,0 +1,3 @@
+dubboSimpleSpiImpl1=top.xudj.spi.dubbo.simple.DubboSimpleSpiImpl1
+dubboSimpleSpiImpl2=top.xudj.spi.dubbo.simple.DubboSimpleSpiImpl2
+dubboSimpleSpiWrapper=top.xudj.spi.dubbo.wrapper.DubboSimpleSpiWrapper

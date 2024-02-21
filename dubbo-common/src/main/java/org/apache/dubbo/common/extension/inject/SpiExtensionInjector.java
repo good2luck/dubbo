@@ -42,6 +42,7 @@ public class SpiExtensionInjector implements ExtensionInjector {
         if (loader == null) {
             return null;
         }
+        // 这里注意，即使getSupportedExtensions有，但可能自适应类扩展没有（一是没有@Adaptive注解的类，二是接口没有@Adaptive注解的方法）
         if (!loader.getSupportedExtensions().isEmpty()) {
             return loader.getAdaptiveExtension();
         }

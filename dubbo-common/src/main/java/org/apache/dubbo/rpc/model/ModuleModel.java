@@ -36,6 +36,7 @@ import java.util.concurrent.locks.Lock;
 
 /**
  * Model of a service module
+ * 模块的模型
  */
 public class ModuleModel extends ScopeModel {
     private static final Logger logger = LoggerFactory.getLogger(ModuleModel.class);

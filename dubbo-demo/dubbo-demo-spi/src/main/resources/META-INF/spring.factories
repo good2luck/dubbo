@@ -1,0 +1,2 @@
+top.xudj.spi.spring.SpringSimpleSpi=\
+  top.xudj.spi.spring.SpringSimpleSpiImpl1,top.xudj.spi.spring.SpringSimpleSpiImpl2

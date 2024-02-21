@@ -301,10 +301,17 @@ class URLParamTest {
     @Test
     void testMethodParameters() {
         URLParam urlParam1 = URLParam.parse("aaa.method1=aaa&bbb.method2=bbb");
+        // METHOD_PARAMETERS的值：
+        // method1 -> <aaa, aaa>
+        // method2 -> <bbb, bbb>
         Assertions.assertEquals("aaa", urlParam1.getAnyMethodParameter("method1"));
         Assertions.assertEquals("bbb", urlParam1.getAnyMethodParameter("method2"));
 
         URLParam urlParam2 = URLParam.parse("methods=aaa&aaa.method1=aaa&bbb.method2=bbb");
+        // METHOD_PARAMETERS的值：
+        // method1 -> <aaa, aaa>
+        // method2 -> <bbb, bbb>
+        // methods -> aaa
         Assertions.assertEquals("aaa", urlParam2.getAnyMethodParameter("method1"));
         Assertions.assertNull(urlParam2.getAnyMethodParameter("method2"));
     }

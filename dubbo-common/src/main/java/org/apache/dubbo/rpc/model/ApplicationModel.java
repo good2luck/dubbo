@@ -49,6 +49,14 @@ import java.util.concurrent.locks.Lock;
  * ApplicationModel includes many ProviderModel which is about published services
  * and many Consumer Model which is about subscribed services.
  * <p>
+ *
+ * ExtensionLoader，DubboBootstrap和这个类目前被设计为单例或静态（本身完全静态或使用一些静态字段）。
+ * 因此，它们返回的实例是进程范围的。如果您想在一个进程中支持多个dubbo服务器，您可能需要重构这三个类。
+ * <p>
+ * ApplicationModel表示一个使用Dubbo的应用程序，并存储在RPC调用过程中使用的基本元数据信息。
+ * <p>
+ * ApplicationModel包括许多ProviderModel，这是关于发布的服务，以及许多Consumer Model，这是关于订阅的服务。
+ *
  */
 public class ApplicationModel extends ScopeModel {
     protected static final Logger LOGGER = LoggerFactory.getLogger(ApplicationModel.class);
@@ -98,6 +106,7 @@ public class ApplicationModel extends ScopeModel {
     }
 
     protected ApplicationModel(FrameworkModel frameworkModel, boolean isInternal) {
+        // 父类ScopeModel的构造方法，设置了scope为APPLICATION
         super(frameworkModel, ExtensionScope.APPLICATION, isInternal);
         synchronized (instLock) {
             Assert.notNull(frameworkModel, "FrameworkModel can not be null");
@@ -106,6 +115,7 @@ public class ApplicationModel extends ScopeModel {
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info(getDesc() + " is created");
             }
+            // 调用ScopeModel的initialize方法
             initialize();
 
             this.internalModule = new ModuleModel(this, true);
@@ -292,6 +302,11 @@ public class ApplicationModel extends ScopeModel {
         return Collections.unmodifiableList(pubModuleModels);
     }
 
+    /**
+     * 获取默认的模块
+     *
+     * @return
+     */
     public ModuleModel getDefaultModule() {
         if (defaultModule == null) {
             synchronized (instLock) {
